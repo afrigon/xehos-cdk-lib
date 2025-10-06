@@ -4,7 +4,7 @@ import * as r53 from "aws-cdk-lib/aws-route53"
 interface ARecordProps {
     domainName: string
     subdomainName?: string
-    addresses: string[]
+    target: r53.RecordTarget
 }
 
 export class ARecord extends Construct {
@@ -18,7 +18,7 @@ export class ARecord extends Construct {
         new r53.ARecord(this, "ARecord", {
             zone,
             recordName: props.subdomainName,
-            target: r53.RecordTarget.fromIpAddresses(...props.addresses)
+            target: props.target
         })
     }
 }
