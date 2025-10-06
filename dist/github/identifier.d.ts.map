@@ -1,0 +1,1 @@
+{"version":3,"file":"identifier.d.ts","sourceRoot":"","sources":["../../lib/github/identifier.ts"],"names":[],"mappings":"AAAA,qBAAa,0BAA0B;IACnC,KAAK,EAAE,MAAM,CAAA;IACb,UAAU,EAAE,MAAM,CAAA;gBAEN,KAAK,EAAE,MAAM,EAAE,UAAU,EAAE,MAAM;IAK7C,MAAM,CAAC,IAAI,CAAC,UAAU,EAAE,MAAM;IAU9B,aAAa,IAAI,MAAM;IAIvB,UAAU,IAAI,MAAM;CAQvB"}

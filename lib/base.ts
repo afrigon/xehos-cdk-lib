@@ -10,9 +10,7 @@ export class BaseStack extends Stack {
     context: ApplicationContext
 
     constructor(scope: Construct, id: string, props: BaseStackProps) {
-        super(scope, id, props);
-
-        (BaseStack.of(scope) as BaseStack).context.identifier()
+        super(scope, id, props)
 
         this.context = props.context
     }

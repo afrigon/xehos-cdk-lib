@@ -37,7 +37,7 @@
     }
   },
   "scripts": {
-    "lint": "eslint --fix lib eslint.config.mjs",
+    "lint": "eslint --fix lib",
     "type-check": "tsc --noEmit",
     "build": "tsc",
     "clean": "rimraf dist",
