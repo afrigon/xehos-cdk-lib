@@ -6,7 +6,7 @@ import { GithubRepositoryIdentifier } from "./identifier.js"
 
 export interface GithubActionProps {
     repository: GithubRepositoryIdentifier,
-    policies: [iam.ManagedPolicy]
+    policies: iam.ManagedPolicy[]
 }
 
 export class GithubActionRole extends Construct {
