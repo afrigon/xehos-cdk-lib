@@ -1,0 +1,58 @@
+{
+  "name": "xehos-cdk",
+  "version": "0.0.1",
+  "description": "some aws constructs",
+  "keywords": [
+    "aws",
+    "cdk",
+    "config",
+    "constructs"
+  ],
+  "homepage": "https://github.com/afrigon/xehos-cdk#readme",
+  "bugs": {
+    "url": "https://github.com/afrigon/xehos-cdk/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/afrigon/xehos-cdk.git"
+  },
+  "license": "MIT",
+  "author": "xehos",
+  "type": "module",
+  "files": "dist/**",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./github": {
+      "types": "./dist/github/index.d.ts",
+      "default": "./dist/github/index.js"
+    },
+    "./dns": {
+      "types": "./dist/dns/index.d.ts",
+      "default": "./dist/dns/index.js"
+    }
+  },
+  "scripts": {
+    "lint": "eslint --fix lib eslint.config.mjs",
+    "type-check": "tsc --noEmit",
+    "build": "tsc",
+    "clean": "rimraf dist",
+    "prepare": "npm run clean && npm run build"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.36.0",
+    "@types/node": "^24.6.2",
+    "eslint": "^9.36.0",
+    "tsx": "^4.20.6",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.45.0"
+  },
+  "dependencies": {
+    "aws-cdk-lib": "^2.219.0",
+    "constructs": "^10.4.2"
+  }
+}
