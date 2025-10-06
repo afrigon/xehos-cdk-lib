@@ -8,7 +8,7 @@ export class OpenIdConnectProvider extends Construct {
     constructor(scope: Construct, id: string) {
         super(scope, id)
 
-        this.provider = new iam.OpenIdConnectProvider(this, "", {
+        this.provider = new iam.OpenIdConnectProvider(this, "github_oidc_provider", {
             url: "https://token.actions.githubusercontent.com",
             clientIds: ["sts.amazonaws.com"]
         })
