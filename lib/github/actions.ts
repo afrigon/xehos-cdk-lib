@@ -38,7 +38,7 @@ export class GithubActionRole extends Construct {
             role.addManagedPolicy(policy)
         }
 
-        new cdk.CfnOutput(this, "Arn", {
+        new cdk.CfnOutput(this, "RoleArn", {
             value: role.roleArn
         })
     }
