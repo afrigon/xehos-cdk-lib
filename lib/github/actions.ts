@@ -5,6 +5,7 @@ import { GithubOpenIdConnectProvider } from "./oidc-provider.js"
 import { GithubRepositoryIdentifier } from "./identifier.js"
 
 export interface GithubActionProps {
+    roleName?: string,
     repository: GithubRepositoryIdentifier,
     policies: iam.ManagedPolicy[]
 }
@@ -29,6 +30,7 @@ export class GithubActionRole extends Construct {
         )
 
         const role = new iam.Role(this, props.repository.awsIdentifier(), {
+            roleName: props.roleName,
             description: `role assumed by github action for tags on ${props.repository.identifier()}`,
             maxSessionDuration: cdk.Duration.hours(1),
             assumedBy: principal
