@@ -1,5 +1,4 @@
 import { Construct } from "constructs"
-import { ApplicationContext } from "../context.js"
 import * as cdk from "aws-cdk-lib"
 import * as r53 from "aws-cdk-lib/aws-route53"
 
@@ -19,21 +18,19 @@ export class DNS extends Construct {
     constructor(scope: Construct, id: string, props: DNSProps) {
         super(scope, id)
 
-        const context = ApplicationContext.of(this)
-
-        const zone = new r53.PublicHostedZone(this, context.identifier("dns", "zone"), {
+        const zone = new r53.PublicHostedZone(this, "zone", {
             zoneName: props.domain,
             comment: `DNS for ${props.domain}`
         })
 
-        new r53.CnameRecord(this, context.identifier("dns", "www-redirect"), {
+        new r53.CnameRecord(this, "www_redirect", {
             zone,
             recordName: "www",
             domainName: props.domain
         })
 
         if (props.emailConfiguration) {
-            new r53.MxRecord(this, context.identifier("dns", "email"), {
+            new r53.MxRecord(this, "email", {
                 zone,
                 values: [
                     { priority: 10, hostName: props.emailConfiguration.mxa },
@@ -41,19 +38,19 @@ export class DNS extends Construct {
                 ]
             })
 
-            new r53.TxtRecord(this, context.identifier("dns", "email", "spf"), {
+            new r53.TxtRecord(this, "email_spf", {
                 zone,
                 values: [props.emailConfiguration.spf]
             })
 
-            new r53.TxtRecord(this, context.identifier("dns", "email", "dkim"), {
+            new r53.TxtRecord(this, "email_dkim", {
                 zone,
                 recordName: "pic._domainkey",
                 values: [props.emailConfiguration.dkim]
             })
         }
 
-        new cdk.CfnOutput(this, context.identifier("dns", "url"), {
+        new cdk.CfnOutput(this, "url", {
             value: cdk.Fn.join(", ", cdk.Token.asList(zone.hostedZoneNameServers))
         })
     }

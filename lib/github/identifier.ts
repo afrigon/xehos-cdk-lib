@@ -23,10 +23,10 @@ export class GithubRepositoryIdentifier {
 
     identifier(): string {
         return [this.owner, this.repository]
-            .map(n => n.toLowerCase())
-            .map(n => n.replace(/[^a-z0-9-]/g, "-"))
-            .map(n => n.replace(/-+/g, "-"))
-            .map(n => n.replace(/^-|-$/g, ""))
-            .join("-")
+            .join("_")
+            .toLowerCase()
+            .replace(/[^a-z0-9_]/g, "_")
+            .replace(/_+/g, "_")
+            .replace(/^_|_$/g, "")
     }
 }

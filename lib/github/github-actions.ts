@@ -13,7 +13,7 @@ export class GithubActionRole extends Construct {
     constructor(scope: Construct, id: string, props: GithubActionProps) {
         super(scope, id)
 
-        const provider = GithubOIDCProvider.fromRefs(this, `${props.repository.identifier()}-oidc-provider`)
+        const provider = GithubOIDCProvider.fromRefs(this, "oidc-provider")
 
         const principal = new iam.FederatedPrincipal(
             provider.openIdConnectProviderArn,
@@ -28,7 +28,7 @@ export class GithubActionRole extends Construct {
             "sts:AssumeRoleWithWebIdentity"
         )
 
-        const role = new iam.Role(this, `github-action-${props.repository.identifier()}`, {
+        const role = new iam.Role(this, props.repository.identifier(), {
             description: `role assumed by github action for tags on ${props.repository.urlIdentifier()}`,
             maxSessionDuration: cdk.Duration.hours(1),
             assumedBy: principal
@@ -37,5 +37,9 @@ export class GithubActionRole extends Construct {
         for (const policy of props.policies) {
             role.addManagedPolicy(policy)
         }
+
+        new cdk.CfnOutput(this, "arn", {
+            value: role.roleArn
+        })
     }
 }
