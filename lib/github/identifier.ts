@@ -1,3 +1,5 @@
+import { pascal } from "../util/string.js"
+
 export class GithubRepositoryIdentifier {
     owner: string
     repository: string
@@ -17,16 +19,11 @@ export class GithubRepositoryIdentifier {
         return new GithubRepositoryIdentifier(owner, repo)
     }
 
-    urlIdentifier(): string {
+    identifier(): string {
         return `${this.owner}/${this.repository}`
     }
 
-    identifier(): string {
-        return [this.owner, this.repository]
-            .join("_")
-            .toLowerCase()
-            .replace(/[^a-z0-9_]/g, "_")
-            .replace(/_+/g, "_")
-            .replace(/^_|_$/g, "")
+    awsIdentifier(): string {
+        return pascal(this.identifier())
     }
 }

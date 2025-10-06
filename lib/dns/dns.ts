@@ -18,19 +18,19 @@ export class DNS extends Construct {
     constructor(scope: Construct, id: string, props: DNSProps) {
         super(scope, id)
 
-        const zone = new r53.PublicHostedZone(this, "zone", {
+        const zone = new r53.PublicHostedZone(this, "Zone", {
             zoneName: props.domain,
             comment: `DNS for ${props.domain}`
         })
 
-        new r53.CnameRecord(this, "www_redirect", {
+        new r53.CnameRecord(this, "WWW", {
             zone,
             recordName: "www",
             domainName: props.domain
         })
 
         if (props.emailConfiguration) {
-            new r53.MxRecord(this, "email", {
+            new r53.MxRecord(this, "Email", {
                 zone,
                 values: [
                     { priority: 10, hostName: props.emailConfiguration.mxa },
@@ -38,19 +38,19 @@ export class DNS extends Construct {
                 ]
             })
 
-            new r53.TxtRecord(this, "email_spf", {
+            new r53.TxtRecord(this, "EmailSPF", {
                 zone,
                 values: [props.emailConfiguration.spf]
             })
 
-            new r53.TxtRecord(this, "email_dkim", {
+            new r53.TxtRecord(this, "EmailDKIM", {
                 zone,
                 recordName: "pic._domainkey",
                 values: [props.emailConfiguration.dkim]
             })
         }
 
-        new cdk.CfnOutput(this, "url", {
+        new cdk.CfnOutput(this, "Url", {
             value: cdk.Fn.join(", ", cdk.Token.asList(zone.hostedZoneNameServers))
         })
     }

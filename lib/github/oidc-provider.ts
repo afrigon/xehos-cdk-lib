@@ -2,13 +2,11 @@ import { Stack } from "aws-cdk-lib"
 import { Construct } from "constructs"
 import * as iam from "aws-cdk-lib/aws-iam"
 
-export class OpenIdConnectProvider extends Construct {
-    provider: iam.OpenIdConnectProvider
-
+export class GithubOpenIdConnectProvider extends Construct {
     constructor(scope: Construct, id: string) {
         super(scope, id)
 
-        this.provider = new iam.OpenIdConnectProvider(this, "github_oidc_provider", {
+        new iam.OpenIdConnectProvider(this, "Github", {
             url: "https://token.actions.githubusercontent.com",
             clientIds: ["sts.amazonaws.com"]
         })

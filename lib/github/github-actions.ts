@@ -1,7 +1,7 @@
 import { Construct } from "constructs"
 import * as cdk from "aws-cdk-lib"
 import * as iam from "aws-cdk-lib/aws-iam"
-import { OpenIdConnectProvider as GithubOIDCProvider } from "./oidc-provider.js"
+import { GithubOpenIdConnectProvider } from "./oidc-provider.js"
 import { GithubRepositoryIdentifier } from "./identifier.js"
 
 export interface GithubActionProps {
@@ -13,7 +13,7 @@ export class GithubActionRole extends Construct {
     constructor(scope: Construct, id: string, props: GithubActionProps) {
         super(scope, id)
 
-        const provider = GithubOIDCProvider.fromRefs(this, "oidc-provider")
+        const provider = GithubOpenIdConnectProvider.fromRefs(this, "Provider")
 
         const principal = new iam.FederatedPrincipal(
             provider.openIdConnectProviderArn,
@@ -22,14 +22,14 @@ export class GithubActionRole extends Construct {
                     "token.actions.githubusercontent.com:aud": "sts.amazonaws.com"
                 },
                 "StringLike": {
-                    "token.actions.githubusercontent.com:sub": `repo:${props.repository.urlIdentifier()}:ref:refs/tags/*`
+                    "token.actions.githubusercontent.com:sub": `repo:${props.repository.identifier()}:ref:refs/tags/*`
                 }
             },
             "sts:AssumeRoleWithWebIdentity"
         )
 
-        const role = new iam.Role(this, props.repository.identifier(), {
-            description: `role assumed by github action for tags on ${props.repository.urlIdentifier()}`,
+        const role = new iam.Role(this, props.repository.awsIdentifier(), {
+            description: `role assumed by github action for tags on ${props.repository.identifier()}`,
             maxSessionDuration: cdk.Duration.hours(1),
             assumedBy: principal
         })
@@ -38,7 +38,7 @@ export class GithubActionRole extends Construct {
             role.addManagedPolicy(policy)
         }
 
-        new cdk.CfnOutput(this, "arn", {
+        new cdk.CfnOutput(this, "Arn", {
             value: role.roleArn
         })
     }
