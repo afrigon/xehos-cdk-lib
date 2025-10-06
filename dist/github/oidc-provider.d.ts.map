@@ -1,1 +1,0 @@
-{"version":3,"file":"oidc-provider.d.ts","sourceRoot":"","sources":["../../lib/github/oidc-provider.ts"],"names":[],"mappings":"AACA,OAAO,EAAE,SAAS,EAAE,MAAM,YAAY,CAAA;AACtC,OAAO,KAAK,GAAG,MAAM,qBAAqB,CAAA;AAE1C,qBAAa,qBAAsB,SAAQ,GAAG,CAAC,qBAAqB;gBACpD,KAAK,EAAE,SAAS,EAAE,EAAE,EAAE,MAAM;IAOxC,MAAM,CAAC,QAAQ,CAAC,KAAK,EAAE,SAAS,EAAE,EAAE,EAAE,MAAM,GAAG,qBAAqB;CASvE"}
