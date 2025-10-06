@@ -15,6 +15,7 @@ export class GithubOpenIdConnectProvider extends Construct {
     static fromRefs(scope: Construct, id: string): iam.OpenIdConnectProvider {
         const arn = Stack.of(scope).formatArn({
             service: "iam",
+            region: "",
             resource: "oidc-provider",
             resourceName: "token.actions.githubusercontent.com"
         })
