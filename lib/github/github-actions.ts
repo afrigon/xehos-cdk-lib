@@ -13,7 +13,7 @@ export class GithubActionRole extends Construct {
     constructor(scope: Construct, id: string, props: GithubActionProps) {
         super(scope, id)
 
-        const provider = GithubOIDCProvider.fromRefs(this, "provider")
+        const provider = GithubOIDCProvider.fromRefs(this, `${props.repository.identifier()}-oidc-provider`)
 
         const principal = new iam.FederatedPrincipal(
             provider.openIdConnectProviderArn,
