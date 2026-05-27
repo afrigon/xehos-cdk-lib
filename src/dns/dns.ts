@@ -2,6 +2,7 @@ import { Construct } from "constructs"
 import * as cdk from "aws-cdk-lib"
 import * as r53 from "aws-cdk-lib/aws-route53"
 import * as kms from "aws-cdk-lib/aws-kms"
+import { kebab } from "../util/string.js"
 
 export interface DNSProps {
     domain: string,
@@ -28,7 +29,7 @@ export class DNS extends Construct {
         const key = new kms.Key(this, "DNSSECKey", {
             keySpec: kms.KeySpec.ECC_NIST_P256,
             keyUsage: kms.KeyUsage.SIGN_VERIFY,
-            alias: "dnssec-signing-key",
+            alias: `${kebab(props.domain)}-dnssec-signing-key`,
             removalPolicy: cdk.RemovalPolicy.DESTROY
         })
 
