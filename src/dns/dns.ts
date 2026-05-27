@@ -1,6 +1,7 @@
 import { Construct } from "constructs"
 import * as cdk from "aws-cdk-lib"
 import * as r53 from "aws-cdk-lib/aws-route53"
+import * as kms from "aws-cdk-lib/aws-kms"
 
 export interface DNSProps {
     domain: string,
@@ -23,12 +24,24 @@ export class DNS extends Construct {
             comment: `DNS for ${props.domain}`
         })
 
+        // DNSSEC
+        const key = new kms.Key(this, "DNSSECKey", {
+            keySpec: kms.KeySpec.ECC_NIST_P256,
+            keyUsage: kms.KeyUsage.SIGN_VERIFY,
+            alias: "dnssec-signing-key",
+            removalPolicy: cdk.RemovalPolicy.DESTROY
+        })
+
+        zone.enableDnssec({ kmsKey: key })
+
+        // www redirection
         new r53.CnameRecord(this, "WWW", {
             zone,
             recordName: "www",
             domainName: props.domain
         })
 
+        // email configuration
         if (props.emailConfiguration) {
             new r53.MxRecord(this, "Email", {
                 zone,
@@ -50,6 +63,7 @@ export class DNS extends Construct {
             })
         }
 
+        // output
         new cdk.CfnOutput(this, "Url", {
             value: cdk.Fn.join(", ", cdk.Token.asList(zone.hostedZoneNameServers))
         })

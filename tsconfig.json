@@ -11,5 +11,5 @@
 		"declarationMap": true,
 		"outDir": "dist"
 	},
-	"include": ["lib"]
+	"include": ["src"]
 }
